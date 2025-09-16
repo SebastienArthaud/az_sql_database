@@ -96,3 +96,32 @@ resource "azurerm_mssql_database" "sql_databases" {
   tags                 = each.value.database_tags
 }
 
+
+resource "azurerm_key_vault_secret" "mysql_admin_password" {
+  count        = var.register_mysqlinfos_to_key_vault == true ? 1 : 0
+  name         = "MySQL-Admin-Password"
+  value        = var.administrator_password
+  key_vault_id = var.key_vault_id
+}
+
+resource "azurerm_key_vault_secret" "mysql_admin_login" {
+  count        = var.register_mysqlinfos_to_key_vault == true ? 1 : 0
+  name         = "MySQL-Admin-login"
+  value        = var.administrator_login
+  key_vault_id = var.key_vault_id
+}
+
+resource "azurerm_key_vault_secret" "mysql_fqdn" {
+  count        = var.register_mysqlinfos_to_key_vault == true ? 1 : 0
+  name         = "MySQL-fqdn"
+  value        = azurerm_mysql_flexible_server.mysql_flexible_server.fqdn
+  key_vault_id = var.key_vault_id
+}
+
+resource "azurerm_key_vault_secret" "mysql_database" {
+  for_each     = var.sql_databases != {} && var.register_mysqlinfos_to_key_vault == true ? var.sql_databases : {}
+  name         = replace("MySQL-database-${each.value.database_name}", "_", "-")
+  value        = each.value.database_name
+  key_vault_id = var.key_vault_id
+}
+

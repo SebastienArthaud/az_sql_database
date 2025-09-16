@@ -212,3 +212,16 @@ variable "elastic_pools" {
   description = "correspond a l'elastic pool aux elastics pool à créer si besoin"
   default     = {}
 }
+
+
+variable "register_mysqlinfos_to_key_vault" {
+  type        = bool
+  description = "Définis si les infos du serveur MySQL (mot de passe administrateur, login, url) sont enregistrés dans un key vault ou non"
+  default     = false
+}
+
+variable "key_vault_id" {
+  type        = string
+  description = "Key vault ou sera stocké le secret de MySQL"
+  default     = null
+}

@@ -19,6 +19,10 @@ No requirements.
 
 | Name | Type |
 |------|------|
+| [azurerm_key_vault_secret.mysql_admin_login](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.mysql_admin_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.mysql_database](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.mysql_fqdn](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_mssql_database.sql_databases](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mssql_database) | resource |
 | [azurerm_mssql_elasticpool.elasticpool](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mssql_elasticpool) | resource |
 | [azurerm_mssql_firewall_rule.firewall_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mssql_firewall_rule) | resource |
@@ -51,10 +55,12 @@ No requirements.
 | <a name="input_entra_id_authentication"></a> [entra\_id\_authentication](#input\_entra\_id\_authentication) | Définis si l'authentification Entra sera activée ou non | `bool` | `false` | no |
 | <a name="input_firewall_rules"></a> [firewall\_rules](#input\_firewall\_rules) | Règles firewall si l'accès public est autorisé, pour autoriser les services azure à accéder au MySQL Flexible server (non recommandé),<br/>    AJoutez l'objet suivant :<br/>    "Azure\_Services" = {<br/>      start\_ip\_address = 'O.O.O.O/O'<br/>      end\_ip\_address   = 'O.O.O.O/O'<br/>    } | <pre>map(object({<br/>    start_ip_address = string<br/>    end_ip_address   = string<br/>  }))</pre> | `{}` | no |
 | <a name="input_identity_type"></a> [identity\_type](#input\_identity\_type) | Type identité à activer sur la ressource ('UserAssigned' et 'SystemAssigned' sont les eules valeurs autorisées) | `string` | `"SystemAssigned"` | no |
+| <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | Key vault ou sera stocké le secret de MySQL | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | Localisation | `string` | `"westeurope"` | no |
 | <a name="input_private_endpoint_subnet_name"></a> [private\_endpoint\_subnet\_name](#input\_private\_endpoint\_subnet\_name) | Subnet ou sera déployé le private endpoint | `string` | `null` | no |
 | <a name="input_private_endpoint_virtual_network_name"></a> [private\_endpoint\_virtual\_network\_name](#input\_private\_endpoint\_virtual\_network\_name) | VNET ou sera déployé le private endpoint | `string` | `null` | no |
 | <a name="input_public_network_access_enabled"></a> [public\_network\_access\_enabled](#input\_public\_network\_access\_enabled) | Autoriser l'accès public ? | `bool` | `false` | no |
+| <a name="input_register_mysqlinfos_to_key_vault"></a> [register\_mysqlinfos\_to\_key\_vault](#input\_register\_mysqlinfos\_to\_key\_vault) | Définis si les infos du serveur MySQL (mot de passe administrateur, login, url) sont enregistrés dans un key vault ou non | `bool` | `false` | no |
 | <a name="input_sql_databases"></a> [sql\_databases](#input\_sql\_databases) | MAP comportant tous les databases de ce SQL Server | <pre>map(object({<br/>    database_name        = string<br/>    collation            = optional(string, "SQL_Latin1_General_CP1_CI_AS")<br/>    geo_backup_enabled   = optional(bool, false)<br/>    max_size_gb          = number<br/>    sku_name             = string<br/>    storage_account_type = optional(string, "Local")<br/>    database_tags        = optional(map(string), {})<br/>  }))</pre> | `{}` | no |
 | <a name="input_sql_server_tags"></a> [sql\_server\_tags](#input\_sql\_server\_tags) | Map de tags | `map(string)` | `{}` | no |
 | <a name="input_subnet_ids_to_allow"></a> [subnet\_ids\_to\_allow](#input\_subnet\_ids\_to\_allow) | Règles firewall si l'accès public est autorisé, pour autoriser les Subnet à accéder au SQL Server, Attention, le service endpoint doit être activé sur le subnet ! | `list(string)` | `[]` | no |
