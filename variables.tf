@@ -48,6 +48,12 @@ variable "public_network_access_enabled" {
   default     = false
 }
 
+variable "create_private_endpoint" {
+  type        = bool
+  description = "Créer un private endpoint ? (s'applique si l'accès public est activé mais qu'un private endpoint est tout de même souhaité)"
+  default     = false
+}
+
 variable "identity_type" {
   type        = string
   description = "Type identité à activer sur la ressource ('UserAssigned' et 'SystemAssigned' sont les eules valeurs autorisées)"

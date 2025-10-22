@@ -1,13 +1,15 @@
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.11 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.11 |
 
 ## Modules
 
@@ -41,6 +43,7 @@ No requirements.
 | <a name="input_administrator_password"></a> [administrator\_password](#input\_administrator\_password) | Mot de passe admin (ou à récupérer dans KeyVault) | `string` | `null` | no |
 | <a name="input_azuread_authentication_only"></a> [azuread\_authentication\_only](#input\_azuread\_authentication\_only) | Specifies whether only AD Users and administrators (e.g. azuread\_administrator[0].login\_username) can be used to login, or also local database users (e.g. administrator\_login). When true, the administrator\_login and administrator\_login\_password properties can be omitted. | `bool` | `false` | no |
 | <a name="input_create_elastic_pool"></a> [create\_elastic\_pool](#input\_create\_elastic\_pool) | permet de définir la création d'un elastic pool ou non | `bool` | `false` | no |
+| <a name="input_create_private_endpoint"></a> [create\_private\_endpoint](#input\_create\_private\_endpoint) | Créer un private endpoint ? (s'applique si l'accès public est activé mais qu'un private endpoint est tout de même souhaité) | `bool` | `false` | no |
 | <a name="input_elastic_pools"></a> [elastic\_pools](#input\_elastic\_pools) | correspond a l'elastic pool aux elastics pool à créer si besoin | <pre>map(object({<br/>    suffix                    = string<br/>    max_size_gb               = optional(number, 10)<br/>    sku_name                  = optional(string, "GP_Gen5")<br/>    capacity                  = optional(number, 2)<br/>    tier_name                 = optional(string, "GeneralPurpose")<br/>    per_database_max_settings = optional(number, 2)<br/>    per_database_min_settings = optional(number, 1)<br/>  }))</pre> | `{}` | no |
 | <a name="input_elasticpool_capacity"></a> [elasticpool\_capacity](#input\_elasticpool\_capacity) | The scale up/out capacity, representing server's compute units. For more information see the documentation for your Elasticpool configuration:<br/>https://docs.microsoft.com/azure/sql-database/sql-database-vcore-resource-limits-elastic-pools or<br/>https://docs.microsoft.com/azure/sql-database/sql-database-dtu-resource-limits-elastic-pools | `number` | `2` | no |
 | <a name="input_elasticpool_max_size_gb"></a> [elasticpool\_max\_size\_gb](#input\_elasticpool\_max\_size\_gb) | The max data size of the elastic pool in gigabytes. | `number` | `10` | no |

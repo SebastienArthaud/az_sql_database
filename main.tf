@@ -55,7 +55,7 @@ resource "azurerm_mssql_elasticpool" "elasticpool" {
 
 
 resource "azurerm_mssql_firewall_rule" "firewall_rule" {
-  for_each         = var.firewall_rules != {} && var.public_network_access_enabled == true ? var.firewall_rules : {}
+  for_each         = var.firewall_rules != {} ? var.firewall_rules : {}
   name             = each.key
   server_id        = azurerm_mssql_server.sql_server.id
   start_ip_address = each.value.start_ip_address
@@ -63,7 +63,7 @@ resource "azurerm_mssql_firewall_rule" "firewall_rule" {
 }
 
 resource "azurerm_mssql_virtual_network_rule" "example" {
-  for_each  = var.subnet_ids_to_allow != [] && var.public_network_access_enabled == true ? toset(var.subnet_ids_to_allow) : toset([])
+  for_each  = var.subnet_ids_to_allow != [] ? toset(var.subnet_ids_to_allow) : toset([])
   name      = reverse(split("/", each.key))[0]
   server_id = azurerm_mssql_server.sql_server.id
   subnet_id = each.key
@@ -71,7 +71,7 @@ resource "azurerm_mssql_virtual_network_rule" "example" {
 
 
 module "SQL_private_endpoint" {
-  count                               = var.public_network_access_enabled == false ? 1 : 0
+  count                               = var.public_network_access_enabled == false || var.create_private_endpoint == true ? 1 : 0
   source                              = "../azure_private_endpoint"
   private_endpoint_name               = local.private_endpoint_name
   subnet_name                         = var.private_endpoint_subnet_name
@@ -114,7 +114,7 @@ resource "azurerm_key_vault_secret" "mysql_admin_login" {
 resource "azurerm_key_vault_secret" "mysql_fqdn" {
   count        = var.register_mysqlinfos_to_key_vault == true ? 1 : 0
   name         = "MySQL-fqdn"
-  value        = azurerm_mysql_flexible_server.mysql_flexible_server.fqdn
+  value        = azurerm_mssql_server.sql_server.fully_qualified_domain_name
   key_vault_id = var.key_vault_id
 }
 
